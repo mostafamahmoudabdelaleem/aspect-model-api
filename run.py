@@ -1,6 +1,7 @@
 from gensim.models import Word2Vec
 from flask import Flask, jsonify
 import time
+import threading
 
 app = Flask(__name__)
 
@@ -37,9 +38,9 @@ def hello_user(word):
             }
         return jsonify(data)
     else:
-        load_model()
+        threading.Thread(target=load_model).start()
         return 'model not loaded'
 
 if __name__ == '__main__':
-    load_model()
+    threading.Thread(target=load_model).start()
     app.run(debug = True)
