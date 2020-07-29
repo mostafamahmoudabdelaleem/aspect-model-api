@@ -23,6 +23,7 @@ def hello():
 
 @app.route('/word2vec/<string:word>')
 def hello_user(word):
+    global model
     print('Word is: {0}'.format(word))
     if model != None:
         if(word in model):
@@ -35,7 +36,9 @@ def hello_user(word):
                 "err" : "Word <{0}> not found in model.".format(word),
             }
         return jsonify(data)
-    return 'model not loaded'
+    else:
+        load_model()
+        return 'model not loaded'
 
 if __name__ == '__main__':
     load_model()
