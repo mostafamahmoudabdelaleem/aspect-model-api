@@ -10,7 +10,7 @@ def hello():
     return 'Hello to Aspect model'
 
 
-@app.route('/word2vec/<word>')
+@app.route('/word2vec/<string:word>')
 def hello_user(word):
     data = {
         "word" : word,
