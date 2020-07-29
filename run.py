@@ -8,7 +8,6 @@ app = Flask(__name__)
 MODEL_URL = 'https://storagerat.blob.core.windows.net/telda/word2vec-100.model?sp=r&st=2020-07-29T17:11:38Z&se=2020-12-30T01:11:38Z&spr=https&sv=2019-12-12&sr=b&sig=0uLLfwejVAc%2FcDR3sESRgDIzaRSGvjCWpZrSWYZ57Xc%3D'
 model = None
 
-threading.Thread(target=load_model).start()
 
 def load_model():
     global model
@@ -18,6 +17,10 @@ def load_model():
         model = Word2Vec.load(MODEL_URL)
         ed = time.time() - st
         print('Model Loaded in : {0} s'.format(ed))
+
+
+threading.Thread(target=load_model).start()
+
 
 @app.route('/')
 def hello():
