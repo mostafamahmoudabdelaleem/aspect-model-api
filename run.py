@@ -19,9 +19,6 @@ def load_model():
         print('Model Loaded in : {0} s'.format(ed))
 
 
-threading.Thread(target=load_model).start()
-
-
 @app.route('/')
 def hello():
     return 'Hello to Aspect model'
@@ -43,9 +40,8 @@ def hello_user(word):
             }
         return jsonify(data)
     else:
-        threading.Thread(target=load_model).start()
+        threading.Thread(target=load_model, name="Model-Loading-Thread").start()
         return 'model not loaded'
 
 if __name__ == '__main__':
-    threading.Thread(target=load_model).start()
     app.run(debug = True)
