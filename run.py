@@ -4,7 +4,7 @@ import time
 
 app = Flask(__name__)
 
-MODEL_URL = 'https://storagerat.blob.core.windows.net/telda/word2vec.model?sp=r&st=2020-07-29T14:24:29Z&se=2020-12-29T22:24:29Z&spr=https&sv=2019-12-12&sr=b&sig=KmUc2NjsbLa9NHrs4uytJ5WCxQUKymW2pbKVS%2F1GGyo%3D'
+MODEL_URL = 'https://storagerat.blob.core.windows.net/telda/word2vec-100.model?sp=r&st=2020-07-29T17:11:38Z&se=2020-12-30T01:11:38Z&spr=https&sv=2019-12-12&sr=b&sig=0uLLfwejVAc%2FcDR3sESRgDIzaRSGvjCWpZrSWYZ57Xc%3D'
 st = time.time()
 print('Loading Model .....')
 model = Word2Vec.load(MODEL_URL)
@@ -19,10 +19,15 @@ def hello():
 @app.route('/word2vec/<string:word>')
 def hello_user(word):
     print('Word is: {0}'.format(word))
-    data = {
-        "word" : word,
-        "vector": model[word].tolist()
-    }
+    if(word in model):
+        data = {
+            "word" : word,
+            "vector": model[word].tolist()
+        }
+    else:
+        data = {
+            "err" : "Word <{0}> not found in model.".format(word),
+        }
     return jsonify(data)
 
 if __name__ == '__main__':
